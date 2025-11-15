@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Astra Chat</title>
+<link rel="stylesheet" href="/static/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<link rel="icon" href="/static/media/astra-avatar.ico" type="image/x-icon">
+
+</head>
+<body>
+
+<div id="chat">
+    <div id="messages"></div>
+
+    <div id="inputBar">
+        <input id="userInput" placeholder="Digite sua mensagem..." autocomplete="off">
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+</div>
+<div id="astra-avatar"></div>
+
+
+<script>
+let typingBubble = null;
+
+/* Scroll */
+function scrollBottom() {
+    const m = document.getElementById("messages");
+    setTimeout(() => m.scrollTop = m.scrollHeight, 50);
+}
+
+/* Bolinhas */
+function showTyping() {
+    typingBubble = document.createElement("div");
+    typingBubble.className = "msg bot";
+
+    typingBubble.innerHTML = `
+        <div class="avatar bot"></div>
+        <div class="typing">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    `;
+
+    document.getElementById("messages").appendChild(typingBubble);
+
+    scrollBottom();
+}
+function removeTyping() {
+    if (typingBubble) typingBubble.remove();
+}
+
+/* Mensagens */
+function addMessage(who, text) {
+    const box = document.createElement("div");
+    box.className = `msg ${who}`;
+
+    const avatar = document.createElement("div");
+    avatar.className = `avatar ${who}`;
+
+    const inner = document.createElement("div");
+    inner.innerHTML = text;
+
+    box.appendChild(avatar);
+    box.appendChild(inner);
+
+    document.getElementById("messages").appendChild(box);
+    scrollBottom();
+    return box;
+}
+
+/* Enviar */
+async function sendMessage() {
+    const input = document.getElementById("userInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage("user", text);
+    input.value = "";
+
+    showTyping();
+
+    const response = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: text })
+    });
+
+    removeTyping();
+
+    const reader = response.body.getReader();
+    let botMessage = addMessage("bot", "");
+
+    while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const chunk = new TextDecoder().decode(value);
+        botMessage.children[1].innerHTML += chunk;
+        scrollBottom();
+    }
+}
+
+/* ENTER envia */
+document.getElementById("userInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendMessage();
+});
+</script>
+
+</body>
+</html>

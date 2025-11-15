@@ -1,0 +1,194 @@
+/* --- Reset básico --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+    color: whitesmoke;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Fundo místico */
+    background: url('/static/media/background.jpg') center/cover no-repeat fixed;
+
+    position: relative;
+}
+
+/* overlay escuro suave */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(2px);
+    z-index: 0;
+}
+
+/* Caixa principal */
+#chat {
+    position: relative;
+    z-index: 10;
+
+    width: 900px;
+    height: 85vh;
+
+    background: rgba(20, 20, 25, 0.90); /* 95% opaco */
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    padding: 22px;
+
+    box-shadow: 0 0 35px rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+}
+
+/* Scrollbar estilizada */
+#messages::-webkit-scrollbar {
+    width: 10px;
+}
+#messages::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+}
+#messages::-webkit-scrollbar-thumb {
+    background: #7756ff;
+    border-radius: 10px;
+}
+
+#messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Caixa de mensagens */
+.msg {
+    padding: 12px 16px;
+    border-radius: 14px;
+    max-width: 75%;
+    white-space: pre-wrap;
+    line-height: 1.45;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+/* Mensagens */
+.user {
+    align-self: flex-end;
+    background: #6a4cff;
+    background: linear-gradient(135deg, #805bff, #5e42ff);
+    color: white;
+}
+
+.bot {
+    align-self: flex-start;
+    background: #1b1b1f;
+    border: 1px solid rgba(255,255,255,0.07);
+}
+
+/* Área de input */
+#inputBar {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+#userInput {
+    flex: 1;
+    background: #121214;
+    color: whitesmoke;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 12px;
+    outline: none;
+    transition: 0.2s;
+}
+
+#userInput:focus {
+    border-color: #8f6dff;
+}
+
+/* Botão roxo estilizado */
+button {
+    padding: 12px 22px;
+    font-weight: bold;
+    color: white;
+
+    background: linear-gradient(135deg, #8f6dff, #6b48ff);
+    border: none;
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #a588ff, #7a5aff);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* Bolinhas do "digitando..." */
+.typing {
+    display: flex;
+    gap: 6px;
+    padding: 8px 4px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #cfcfcf;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+}
+
+/* Avatar fixo no canto inferior esquerdo */
+#astra-avatar {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+
+    background: url('/static/media/astra-avatar.png') center/cover no-repeat;
+
+    /* Efeito místico suave */
+    box-shadow: 0 0 18px rgba(150, 80, 255, 0.45);
+
+    z-index: 9999;
+    cursor: pointer;
+
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Animação ao passar o mouse */
+#astra-avatar:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 25px rgba(180, 120, 255, 0.55);
+}
