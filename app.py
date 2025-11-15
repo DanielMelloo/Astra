@@ -5,7 +5,7 @@ import uuid
 import json
 import traceback
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/astra/static', static_folder='static')
 app.secret_key = "qualquer_coisa_aqui"
 CORS(app)
 
@@ -92,7 +92,7 @@ def stream_qwen(prompt):
 # ----------------------------------------------------------
 #  ROTAS
 # ----------------------------------------------------------
-@app.route("/")
+@app.route("/astra/")
 def index():
     if "chat_id" not in session:
         session["chat_id"] = str(uuid.uuid4())
