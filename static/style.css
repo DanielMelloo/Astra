@@ -14,7 +14,7 @@ body {
     align-items: center;
 
     /* Fundo místico */
-    background: url('/static/media/background.jpg') center/cover no-repeat fixed;
+    background: url('/astra/static/media/background.jpg') center/cover no-repeat fixed;
 
     position: relative;
 }
@@ -176,7 +176,7 @@ button:active {
     height: 70px;
     border-radius: 50%;
 
-    background: url('/static/media/astra-avatar.png') center/cover no-repeat;
+    background: url('/astra/static/media/astra-avatar.png') center/cover no-repeat;
 
     /* Efeito místico suave */
     box-shadow: 0 0 18px rgba(150, 80, 255, 0.45);
